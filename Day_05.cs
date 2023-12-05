@@ -277,6 +277,8 @@ public class Day_05
                     {
                         _newRanges.Add(_modifiedRanges[0]);
                     }
+
+                    break;
                 }
             }
 

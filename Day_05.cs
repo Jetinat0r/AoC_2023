@@ -214,19 +214,19 @@ public class Day_05
 
     public List<Map> ParseMaps(string[] input, ref int _curLine)
     {
-        List<Map> _seedToSoilMaps = new();
+        List<Map> _srcToDstMaps = new();
         _curLine += 1;
 
         while (_curLine < input.Length && input[_curLine] != "")
         {
-            _seedToSoilMaps.Add(MakeMap(input[_curLine]));
+            _srcToDstMaps.Add(MakeMap(input[_curLine]));
 
             _curLine++;
         }
 
         _curLine += 1;
 
-        return _seedToSoilMaps;
+        return _srcToDstMaps;
     }
 
     public ulong RunMap(List<Map> _maps, ulong _val)

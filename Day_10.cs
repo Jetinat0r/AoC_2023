@@ -558,8 +558,7 @@ public class Day_10
         for(int y = 0; y < yBounds; y++)
         {
             bool _inStructure = false;
-            bool _lastInStructure = false;
-            PIPES _lastPipe = PIPES.UD;
+            //PIPES _lastPipe;
             for (int x = 0; x < xBounds; x++)
             {
                 bool _onWall = _successList.Contains(_allTiles[x, y]);
@@ -578,7 +577,7 @@ public class Day_10
 
                     if(_allTiles[x, y].type == PIPES.UR || _allTiles[x, y].type == PIPES.DR)
                     {
-                        _lastPipe = _allTiles[x, y].type;
+                        PIPES _lastPipe = _allTiles[x, y].type;
                         do
                         {
                             x++;
@@ -586,161 +585,27 @@ public class Day_10
 
                         if(_lastPipe == PIPES.UR)
                         {
-                            if (_inStructure)
+                            if(_allTiles[x, y].type == PIPES.UL)
                             {
-                                if(_allTiles[x, y].type == PIPES.UL)
-                                {
-                                    //Still in structure
-                                }
-                                else
-                                {
-                                    _inStructure = false;
-                                }
+                                //State doesn't change
                             }
                             else
                             {
-                                if(_allTiles[x, y].type == PIPES.DL)
-                                {
-                                    _inStructure = true;
-                                }
-                                else
-                                {
-                                    //Still outside structure
-                                }
+                                _inStructure = !_inStructure;
                             }
                         }
                         else
                         {
-                            if (_inStructure)
+                            if (_allTiles[x, y].type == PIPES.DL)
                             {
-                                if (_allTiles[x, y].type == PIPES.DL)
-                                {
-                                    //Still in structure
-                                }
-                                else
-                                {
-                                    _inStructure = false;
-                                }
+                                //State doesn't change
                             }
                             else
                             {
-                                if (_allTiles[x, y].type == PIPES.UL)
-                                {
-                                    _inStructure = true;
-                                }
-                                else
-                                {
-                                    //Still outside structure
-                                }
+                                _inStructure = !_inStructure;
                             }
                         }
                         continue;
-                    }
-
-                    continue;
-                    if (_inStructure)
-                    {
-                        _inStructure = false;
-                        _lastPipe = _allTiles[x, y].type;
-                        /*
-                        if (_allTiles[x, y].type == PIPES.UL)
-                        {
-                            if (_lastPipe != PIPES.DR)
-                            {
-                                _inStructure = false;
-                            }
-                            else
-                            {
-                                _inStructure = true;
-                            }
-                            continue;
-                        }
-
-                        if (_allTiles[x, y].type == PIPES.DL)
-                        {
-                            if (_lastPipe != PIPES.UR)
-                            {
-                                _inStructure = false;
-                            }
-                            else
-                            {
-                                _inStructure = true;
-                            }
-                            continue;
-                        }
-                        */
-                    }
-                    else
-                    {
-                        if (_allTiles[x, y].type == PIPES.UL)
-                        {
-                            if (_lastPipe != PIPES.DR)
-                            {
-                                _inStructure = false;
-                            }
-                            else
-                            {
-                                _inStructure = true;
-                            }
-                            continue;
-                        }
-
-                        if (_allTiles[x, y].type == PIPES.DL)
-                        {
-                            if (_lastPipe != PIPES.UR)
-                            {
-                                _inStructure = false;
-                            }
-                            else
-                            {
-                                _inStructure = true;
-                            }
-                            continue;
-                        }
-                    }
-                    
-                    continue;
-
-                    if (!_inStructure)
-                    {
-                        _inStructure = true;
-                        _lastPipe = _allTiles[x, y].type;
-                    }
-                    else
-                    {
-                        if(_allTiles[x, y].type == PIPES.LR)
-                        {
-                            continue;
-                        }
-
-                        if(_lastPipe == PIPES.UR)
-                        {
-                            if(_allTiles[x, y].type != PIPES.DL)
-                            {
-                                _inStructure = false;
-                            }
-                        }
-                        else if(_lastPipe == PIPES.DR)
-                        {
-                            if (_allTiles[x, y].type != PIPES.UL)
-                            {
-                                _inStructure = false;
-                            }
-                        }
-                        else if(_lastPipe == PIPES.UL)
-                        {
-                            //Do nothing?
-                        }
-                        else if(_lastPipe == PIPES.DL)
-                        {
-                            //Do nothing?
-                        }
-                        else
-                        {
-                            _inStructure = false;
-                        }
-
-                        _lastPipe = _allTiles[x, y].type;
                     }
                 }
                 else
@@ -751,260 +616,11 @@ public class Day_10
                         _insideTiles.Add(_allTiles[x, y]);
                     }
                 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-                /*
-                if (_onWall)
-                {
-                    if (_inStructure)
-                    {
-                        PIPES _newPipe = _allTiles[x, y].type;
-
-                        if (_newPipe == PIPES.UD)
-                        {
-                            _inStructure = false;
-                        }
-                        else if(_newPipe == PIPES.LR)
-                        {
-                            //Do nothing
-                        }
-                        else if(_lastPipe == PIPES.UR)
-                        {
-                            if(_newPipe == PIPES.UL)
-                            {
-                                _inStructure = false;
-                            }
-                            else
-                            {
-                                //Do nothing ig
-                            }
-                        }
-                        else if(_lastPipe == PIPES.DR)
-                    }
-                    else
-                    {
-                        _inStructure = true;
-                    }
-                    //else
-                }
-                else
-                {
-                    if (_lastInStructure)
-                    {
-                        _inStructure = false;
-                    }
-                    else if (_inStructure)
-                    {
-                        _total++;
-                    }
-                    //else do nothing
-                }
-
-                _lastInStructure = _onWall;
-                */
             }
         }
 
         Console.WriteLine();
         DebugTiles(xBounds, yBounds, _insideTiles, input);
         Console.WriteLine(_total);
-        /*
-        List<Tile> _outside = new();
-        List<Tile> _inside = new();
-        List<Tile> _toCheck = new();
-
-        //Check top + bottom edges
-        for(int x = 0; x < xBounds; x++)
-        {
-            if (!_successList.Contains(_allTiles[x, 0]))
-            {
-                _outside.Add(_allTiles[x, 0]);
-            }
-
-            if (!_successList.Contains(_allTiles[x, yBounds - 1]))
-            {
-                _outside.Add(_allTiles[x, yBounds - 1]);
-            }
-        }
-
-        //Check left + right edges
-        for(int y = 1; y < yBounds - 1; y++)
-        {
-            if (!_successList.Contains(_allTiles[0, y]))
-            {
-                _outside.Add(_allTiles[0, y]);
-            }
-
-            if (!_successList.Contains(_allTiles[xBounds - 1, y]))
-            {
-                _outside.Add(_allTiles[xBounds - 1, y]);
-            }
-        }
-
-        //Add EVERYTHING else to the check list
-        for (int y = 1; y < yBounds - 1; y++)
-        {
-            for (int x = 1; x < xBounds - 1; x++)
-            {
-                if(!_successList.Contains(_allTiles[x, y]))
-                {
-                    _toCheck.Add(_allTiles[x, y]);
-                }
-            }
-        }
-
-        while(_toCheck.Count > 0)
-        {
-            Tile _curTile = _toCheck[0];
-            List<Tile> _curConnected = new()
-            {
-                _curTile,
-            };
-
-
-            _toCheck.Remove(_curTile);
-
-
-            CheckTile(xBounds, yBounds, _allTiles, _successList, _toCheck, _outside, _inside, _curConnected, _curTile);
-        }
-        */
     }
-
-    /*
-    // -1: Outside
-    //  0: Unknown
-    //  1: Inside
-    public int CheckTile(int xBounds, int yBounds, Tile[,] _allTiles, List<Tile> _successList, List<Tile> _toCheck, List<Tile> _outside, List<Tile> _inside, List<Tile> _curConnected, Tile _curTile)
-    {
-        //Check Up
-        if(InBounds(xBounds, yBounds, _curTile.x, _curTile.y - 1))
-        {
-            Tile _newTile = _allTiles[_curTile.x, _curTile.y - 1];
-
-            if (_outside.Contains(_newTile))
-            {
-                _curConnected.Add(_newTile);
-                _toCheck.Remove(_newTile);
-                return -1;
-            }
-
-            if (_inside.Contains(_newTile))
-            {
-                _curConnected.Add(_newTile);
-                _toCheck.Remove(_newTile);
-                return 1;
-            }
-
-            if (_toCheck.Contains(_newTile))
-            {
-                _curConnected.Add(_newTile);
-                _toCheck.Remove(_newTile);
-
-                int _ret = CheckTile(xBounds, yBounds, _allTiles, _successList, _toCheck, _outside, _inside, _curConnected, _newTile);
-                if(_ret != 0)
-                {
-                    return _ret;
-                }
-                //else dead end, pass through
-            }
-            else
-            {
-                //Check if part of loop
-                if (_successList.Contains(_newTile))
-                {
-                    //We need to check for slippage
-                    Tile _slippageTile = SlipUp();
-                }
-                //else dead end, pass through
-            }
-        }
-
-        //Check Down
-        if (InBounds(xBounds, yBounds, _curTile.x, _curTile.y + 1))
-        {
-            Tile _newTile = _allTiles[_curTile.x, _curTile.y + 1];
-        }
-
-        //Check Left
-        if (InBounds(xBounds, yBounds, _curTile.x - 1, _curTile.y))
-        {
-            Tile _newTile = _allTiles[_curTile.x - 1, _curTile.y];
-        }
-
-        //Check Right
-        if (InBounds(xBounds, yBounds, _curTile.x + 1, _curTile.y))
-        {
-            Tile _newTile = _allTiles[_curTile.x + 1, _curTile.y];
-        }
-    }
-
-    public Tile? SlipUp(int xBounds, int yBounds, Tile[,] _allTiles, List<Tile> _successList, Tile _curTile, out bool _outOfBounds)
-    {
-        _outOfBounds = false;
-
-        //Precondition: Up tile is part of _successList. may not *always* be true?
-        //Step 1: Check if -; and end if so
-        //Step 2: Check if |; and check both if so
-        //Step 3: Check if L or F; check left if so
-        //Step 4: Must be 7 or J; check right
-        //If any check NOT in bounds, 
-        if(_curTile.type == PIPES.LR)
-        {
-            return null;
-        }
-        else if (_curTile.type == PIPES.UD)
-        {
-            if(!InBounds(xBounds, yBounds, _curTile.x - 1, _curTile.y))
-            {
-                _outOfBounds = true;
-                return null;
-            }
-
-            Tile _newLeftTile = _allTiles[_curTile.x - 1, _curTile.y];
-
-            if (!InBounds(xBounds, yBounds, _curTile.x + 1, _curTile.y))
-            {
-                _outOfBounds = true;
-                return null;
-            }
-
-            Tile _newRightTile = _allTiles[_curTile.x + 1, _curTile.y];
-
-        }
-        else if (_curTile.type == PIPES.UR || _curTile.type == PIPES.DR)
-        {
-
-        }
-        else //if (_curTile.type == PIPES.UL || _curTile.type == PIPES.DL)
-        {
-
-        }
-    }
-
-    public Tile? SlipDown()
-    {
-
-    }
-
-    public Tile? SlipRight()
-    {
-
-    }
-
-    public Tile? SlipLeft()
-    {
-
-    }
-    */
 }
